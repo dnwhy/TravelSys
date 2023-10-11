@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--为这个mapper指定一个唯一的namespace，namespace的值设置成DAO接口名，这样就能够保证能够匹配DAO接口-->
+<mapper namespace="com.etc.travelsys.mapper.TogetherMapper">
+
+    <!--搜索并分页查询结伴游列表-->
+    <select id="queryTogether" resultType="TogetherEntity">
+        select * from t_together
+        <!--动态sql 如果searchAddress等于no,证明没有搜索条件,此时查询所有;
+        如果不等于no，证明有搜索条件，此时查询要有此条件的模糊查询-->
+        <if test="searchAddress!='no'">
+            where address like concat('%',#{searchAddress},'%')
+        </if>
+    </select>
+
+    <!--查询结伴游详情-->
+    <select id="queryTogetherDetail" resultType="TogetherEntity">
+        select * from t_together where togetherid = #{togetherid}
+    </select>
+
+    <!--添加结伴游-->
+    <insert id="addTogether">
+        insert into t_together values (null,#{publishid},#{publishname},now(),#{togethertitle},
+                                       #{address},#{starttime},#{endtime},#{togetherdetail},
+                                       #{togethermoblie},#{img})
+    </insert>
+
+    <!--分页查询我发布的结伴游-->
+    <select id="queryMyTogether" resultType="TogetherEntity">
+        select * from t_together where publishid = #{userid}
+    </select>
+
+    <!--删除结伴游-->
+    <delete id="delTogether">
+        delete from t_together where  togetherid = #{togetherid}
+    </delete>
+
+    <!--修改结伴游-->
+    <update id="updateTogether">
+        update t_together set togethertitle = #{togethertitle}
+                            ,address = #{address},starttime = #{starttime}
+                            ,endtime = #{endtime},togetherdetail = #{togetherdetail}
+                            ,togethermoblie = #{togethermoblie},img = #{img}
+        where togetherid = #{togetherid}
+    </update>
+
+
+</mapper>

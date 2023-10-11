@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+	<meta charset="utf-8">
+    <title>用户 | 驴友网</title>
+        <meta name="Keywords" content="驴友网" />
+        <meta name="Description" content="旅游社交，在旅途中享受激情与欢乐" />
+        <link rel="stylesheet" type="text/css" href="../css/global.css"  />
+        <link rel="stylesheet" type="text/css" href="../css/reg.css"  />
+        <link rel="stylesheet"  href="../css/boxy,jquery.fancybox-1.3.4.css" />
+		<link rel="stylesheet"  href="../css/search.css" />
+        <script type="text/javascript">
+			var userjson = '';
+			var c_cityinfo = '';
+		</script>
+
+	<!--引入jQuery脚本库-->
+	<script type="text/javascript" th:src="@{/webjars/jquery/3.5.1/jquery.js}"></script>
+	<script>
+		$(function () {
+			/*在class=“header”的div中加载header.html*/
+			$(".header").load("/toPage?url=header");
+			$(".footer").load("/toPage?url=footer");
+		})
+	</script>
+</head>
+
+<body id="reg">
+<!--top-->
+<div class="header">
+</div>
+<!--top end-->
+        
+<div id="container" class='noXtips'>
+		<div id="mainWrapper" class="fn-clear">
+			<div class="main">
+				<h2>他发布的旅游记忆</h2>
+				<div class="searchResult">
+					<ul id="feed_list" maxbid="" class="feed_list " >
+						<li class="cf" bid="367492" th:each="m:${pageInfo.list}">
+							<div class="head_pic-warp">
+								<a th:href="@{/memory/queryMemoryDetail(mid=${m.mid})}">
+									<img width="75px" height="75px" th:src="${m.img}"></a>
+							</div>
+							<div class="feed_content"> 
+								<p class="feed-head">
+									<a th:href="@{/memory/queryMemoryDetail(mid=${m.mid})}">[[${m.mtitle}]]</a>
+								</p><br />
+								<div class="feed_from">
+									<div class="fl">
+										<cite><a href="javascript:;">类别：[[${m.tname}]]</a>&nbsp;&nbsp;&nbsp;&nbsp;
+											  <a href="javascript:;">发布者：[[${m.publishname}]]</a>&nbsp;&nbsp;&nbsp;&nbsp;
+											  <a href="javascript:;">发布时间：[[${m.publishtime}]]</a>
+										</cite> 
+									</div>     
+								</div>
+							</div>
+						</li>
+					</ul>    
+					<!--记忆列表结束-->
+
+					<!--分页-->
+					<div class="no-pages">
+						<strong>当前第[[${pageInfo.pageNum}]]页,共[[${pageInfo.pages}]]页,共[[${pageInfo.total}]]条数据</strong>
+						<a th:if="${pageInfo.pageNum != 1}" th:href="@{/memory/queryAuthorMemory(publishid=${publishid})}" class="pageBtn">首页 &gt;&gt;</a>
+						<a th:if="${pageInfo.pageNum != 1}" th:href="@{/memory/queryAuthorMemory(publishid=${publishid},pageNum=${pageInfo.prePage})}" class="pageBtn">上一页 &gt;&gt;</a>
+						<a th:if="${pageInfo.pageNum != pageInfo.pages}" th:href="@{/memory/queryAuthorMemory(publishid=${publishid},pageNum=${pageInfo.nextPage})}" class="pageBtn">下一页 &gt;&gt;</a>
+						<a th:if="${pageInfo.pageNum != pageInfo.pages}" th:href="@{/memory/queryAuthorMemory(publishid=${publishid},pageNum=${pageInfo.pages})}" class="pageBtn">末页 &gt;&gt;</a>
+					</div>
+					<!--分页-->
+
+				<!--记忆搜索结果end--> 
+			</div>
+		</div>
+	</div>
+</div>
+
+	
+<div class="footer" >
+</div>
+<!-- footer end -->
+</body>
+</html>

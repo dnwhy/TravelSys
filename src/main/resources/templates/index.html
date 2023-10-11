@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <!--基本路径-->
+    <base href="/">
+
+    <meta charset="utf-8">
+    <title>首页 | 驴友网</title>
+    <meta name="Keywords" content="驴友网"/>
+    <meta name="Description" content="旅游社交，在旅途中享受激情与欢乐"/>
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta http-equiv="mobile-agent" content="format=html5; url=http://m.roadqu.com">
+    <meta name="baidu-site-verification" content="fGdITGCHHMB5crjs" />
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta http-equiv="mobile-agent" content="format=html5; url=http://m.roadqu.com">
+	<link rel="stylesheet" href="css/global.css" media="all"/>
+	<link rel="stylesheet" href="css/boxy,jquery.fancybox-1.3.4.css"/>
+	<link rel="stylesheet" type="text/css" href="css/cityguide.css"  />
+    <link rel="stylesheet" type="text/css" href="css/index.css" media="all">
+    <script type="text/javascript">
+    var userjson = '';
+    var c_cityinfo = '';
+    </script>
+    <!-- 合并jquery and $LAB -->
+    <script type="text/javascript" src="js/jquery-1.4.4.min,LAB.min.js"></script>
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.5.1/jquery.js}"></script>
+    <script>
+        $(function () {
+            /*在class=“header”的div中加载header.html*/
+            $(".header").load("/toPage?url=header");
+            $(".footer").load("/toPage?url=footer");
+        })
+    </script>
+</head>
+
+<body>
+<div class="header"></div>
+<!--top end-->
+
+<!--main body-->
+<div id="container">
+<div id="mainWrapper" class="cf">
+	<ul class="city-select">
+        <li class="current" th:each="c:${cities}">
+        <a href="city/shenzhen">[[${c.glocation}]]</a>
+        <p>[[${c.num}]]个景点</p>
+    	</li>
+        <li class="coming_soon">
+			<a href="#">其他城市统计中...</a>
+    	</li>
+	</ul>	
+
+<div class="sceneInfo">
+    <div class="sceneView fn-clear ">
+        <div class="scenePic">
+			<ul id="slider" class="slider">
+            	<li>
+					<a href="">
+						<img src="images/intro_201301102119_-1.jpg" width="530" height="325" alt="观澜版画村 画中有话" title="观澜版画村 画中有话">
+					</a>
+                    <div class="alpha-txt txt-info">
+                        <h2>观澜版画村 画中有话</h2>
+                        <p>久负盛名客家小村，都市繁华深处的一块净土，深圳最美丽的乡村。</p>
+                    </div>
+                </li>
+                <li>
+					<a href="">
+						<img src="images/intro_201301102121_-1.jpg" width="530" height="325" alt="玩水嬉游 海滩撒欢" title="玩水嬉游 海滩撒欢">
+					</a>
+                    <div class="alpha-txt txt-info">
+                        <h2>玩水嬉游 海滩撒欢</h2>
+                        <p>深圳拥有滩长、浪软、沙细的多个海滩，去寻找最休闲最娱乐最美丽的那片海滩吧。</p>
+                    </div>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="images/intro_201301102121_-2.jpg" width="530" height="325" alt="大鹏古城 深圳发源地" title="大鹏古城 深圳发源地">
+                    </a>
+                    <div class="alpha-txt txt-info">
+                        <h2>大鹏古城 深圳发源地</h2>
+                        <p>古城小巷间，隐匿着多少失落的历史光阴，寻古探幽，发现历史与禅意。</p>
+                    </div>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="images/intro_201301102121_-3.jpg" width="530" height="325" alt="大望梧桐  深圳桃花源" title="大望梧桐  深圳桃花源">
+                    </a>
+                    <div class="alpha-txt txt-info">
+                        <h2>大望梧桐  深圳桃花源</h2>
+                        <p>不经意间，在深圳大望，发现那么一个地方，只一眼，所有小时候的记忆呼之欲出。 </p>
+                    </div>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="images/intro_201301102121_-4.jpg" width="530" height="325" alt="一街两制  中英街" title="一街两制  中英街">
+                    </a>
+                    <div class="alpha-txt txt-info">
+                        <h2>一街两制  中英街</h2>
+                        <p>沧桑和繁华的中英街，深圳特有的、全世界独一无二的“一街两制”免税商业街。 </p>
+                    </div>
+                </li>
+			</ul>
+		</div>
+        <div class="sceneIntro">
+            <div class="sceneIntro-head">
+                <h2 class="fn-left">系统公告</h2></div>
+			
+			<p><span class="fn-clear">欢迎进入驴友网，更多公告信息动态更新......</span></p><br />
+				
+            <div class="scene-subcnt">
+                <ul class="guide-tag">
+                    <li> <a href="#" class="wantGo" >不经意间，只一眼，所有小时候的记忆呼之欲出</a></li>
+                    <li class="gone"><a href="#" class="aleadyGo" >古城小巷，隐匿多少失落的历史光阴，发现历史与禅意</a></li>
+                    <li class="tuijian"><a href="#" class="share-city" id="share-city">久负盛名客家小村，都市繁华深处的一块净土</a></li>
+                </ul>
+            </div>
+			
+			<div class="scoreSec"><br /><br /><br /><br /><br />
+				<ul class="scene-thumbnail" id="scene-thumbnail">
+					<li>
+						<a href="images/5f45080874b9502e80cbfcc3e10c6dd3-175-175.jpg" target="_blank"
+						   rel="gallery" class="thumbnail">
+							<img src="images/5f45080874b9502e80cbfcc3e10c6dd3-175-175_c.jpg" alt="teamleader" width="70" height="70"></a>
+					</li>
+					<li>
+						<a href="images/8ec44886bac029c30e931b67be5922ec-175-175.jpg" target="_blank"
+						   rel="gallery" class="thumbnail">
+							<img src="images/8ec44886bac029c30e931b67be5922ec-175-175_c.jpg" alt="teamleader" width="70" height="70"></a>
+					</li>
+					<li>
+						<a href="images/d28a4f38621a9c8c7cfce41ddc367a68-175-175.jpg" target="_blank"
+						   rel="gallery" class="thumbnail">
+							<img src="images/d28a4f38621a9c8c7cfce41ddc367a68-175-175_c.jpg" alt="小u" width="70" height="70"></a>
+					</li>
+					<li>
+						<a href="images/f7896dc56b2f4d349da6a945d10b2546-175-175.jpg" target="_blank"
+						   rel="gallery" class="thumbnail">
+							<img src="images/f7896dc56b2f4d349da6a945d10b2546-175-175_c.jpg" alt="teamleader" width="70" height="70"></a>
+					</li>
+					<li class="more-link">
+						<a href="city/pic/shenzhen">更多图片</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+    </div>
+</div>
+
+<!--热门旅游记忆-->
+<div class="ui-box fn-clear">
+    <div class="ui-title">
+        <h2 class="ui-title-cnt fn-left"><em>旅游记忆</em></h2>
+        <div class="ui-title-subcnt fn-right"><a target="_blank" href="/memory/queryTypeMemory">+更多</a></div>
+    </div>
+    <ul class="poi_hot" id="poi_hot">
+		<li th:each="m:${memories}">
+            <a th:title="${m.mtitle}" th:href="@{/memory/queryMemoryDetail(mid=${m.mid})}">
+				<img th:src="${m.img}" th:alt="${m.mtitle}" width="221" height="300">
+            </a>
+            <p class="alpha-txt alpha-txt-green"><a target="_blank" th:title="${m.mtitle}" href="#">[[${m.mtitle}]]</a></p>
+            <div class="alpha-txt intro_info">
+                <p>[[${m.mcontent}]]</p>
+            </div>
+		</li>
+    </ul>
+</div>
+<!--热门旅游记忆- end-->
+
+<div class="ui-box fn-clear">
+    <div class="ui-title">
+        <h2 class="ui-title-cnt fn-left"><em>友情链接</em></h2>
+        <div class="ui-title-subcnt fn-right"><a href="#">+ 更多</a></div>
+    </div>
+    <div class="friend-link">
+        <div class="link-list" id="link-list">
+			<!--第一屏-->
+			<div>
+				<ul>
+					<li><a href="http://www.roadqu.com/apps/qunawan/" target="_blank">今天去哪玩?</a></li>
+                    <li><a href="品味旅游网 " target="_blank">品味旅游网 </a></li>
+                    <li><a href="http://www.redidai.com" target="_blank">热地带旅行网</a></li>
+                    <li><a href="http://www.maidou.cn " target="_blank">旅游网</a></li>
+                    <li><a href="http://gz.ganji.com/tejiajipiao/" target="_blank">广州特价机票</a></li>
+                    <li><a href="http://tukeq.com" target="_blank">途客圈旅行网</a></li>
+                    <li><a href="http://www.vaazaa.com" target="_blank">四川旅游</a></li>
+                    <li><a href="http://home.sz.soufun.com" target="_blank">深圳家居</a></li>
+                    <li><a href="http://huoche.mipang.com" target="_blank">火车票查询</a></li>
+                    <li><a href="http://www.cnutg.com" target="_blank">旅游攻略网</a></li>
+                    <li><a href="http://www.dgairport.cn/ " target="_blank">机票预定查询</a></li>
+					<li><a href="http://sz.esf.focus.cn/" target="_blank">深圳二手房</a></li>
+                    <li><a href="http://gz.58.com/nongjiale/" target="_blank">广州农家乐</a></li>
+                    <li><a href="http://www.wuyuan168.com/" target="_blank">婺源旅游</a></li>
+                    <li><a href="http://www.tourye.com" target="_blank">陶冶户外</a></li>
+                    <li><a href="http://www.szwalking.com" target="_blank">深圳徒步网</a></li>
+                    <li><a href="http://www.roadqu.com/interest/11" target="_blank">亲子旅游</a></li>
+                    <li><a href="http://www.taiwandao.tw" target="_blank">台湾旅游</a></li>
+                    <li><a href="http://taiguo.mipang.com" target="_blank">泰国旅游</a></li>
+                    <li><a href="http://www.tianqiyubao.cn" target="_blank">天气预报</a></li>
+                    <li><a href="http://www.cnutg.com" target="_blank">特价机票网</a></li>
+                    <li><a href="http://www.iqiyi.com/lvyou/" target="_blank">爱奇艺旅游</a></li>
+                    <li><a href="http://www.jhgl.cn/" target="_blank">嘉华国旅</a></li>
+                    <li><a href="http://piao.gaotie.cn" target="_blank">网上订票</a></li>
+                    <li><a href="http://shenzhen.qd8.com.cn" target="_blank">深圳分类信息</a></li>
+                    <li><a href="http://travel.poco.cn/" target="_blank">poco旅游</a></li>
+                    <li><a href="http://www.17u.com/tickets/ " target="_blank">景点门票 </a></li>
+                    <li><a href="http://www.roadqu.com/lvyouquan/" target="_blank">旅游圈</a></li>
+				</ul>
+			</div>
+			<div>
+				<ul>
+					<li><a href="http://www.roadqu.com/interest/" target="_blank">旅游社区</a></li>
+					<li><a href="http://www.roadqu.com/book/list" target="_blank">温泉门票优惠</a></li>
+					<li><a href="http://www.roadqu.com/city/" target="_blank">城市导游</a></li>
+					<li><a href="http://www.roadqu.com/event/" target="_blank">休闲旅游</a></li>
+					<li><a href="http://www.roadqu.com/journey/" target="_blank">旅游攻略</a></li>
+					<li><a href="http://chat.uzai.com/" target="_blank">悠哉旅游社区</a></li>
+					<li><a href="http://www.roadqu.com/book/" target="_blank">广东温泉预订</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!--友情链接 end-->
+</div>
+</div>
+<!--main body end-->
+
+<div class="footer"></div>
+<!-- footer end -->
+
+
+<a href="#map_picker_content" id="mappickerfancybox" class="disnone">更改</a>
+<div class="disnone" id="map_picker_wrap">
+    <div id="map_picker_content"></div>
+</div>
+
+<!-- STUFF YOU NEED FOR BEAUTYTIPS -->
+<!--[if IE]>
+<script src="/static/js/excanvas.js" type="text/javascript" charset="utf-8"></script><![endif]-->
+<!-- /STUFF -->
+
+<!-- 图片加载透明文字开始 -->
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // 幻灯片
+        $("#poi_hot li,#wanfa_pic li:first").hover(function () {
+            var $this = $(this);
+            $this.find('div.intro_info').show();
+
+        }, function () {
+            var $this = $(this);
+            $this.find('div.intro_info').hide();
+
+        })
+        $LAB.script("js/jquery.bxSlider.min.js")
+                .wait(function () {
+                    $('#slider').bxSlider({ auto:true, pager:true});
+                    $('#link-list').bxSlider({ speed:1000});
+                })
+        $("#guide_nav li").hover(function () {
+            var $this = $(this);
+            $this.addClass("guide_nav_item_hover");
+
+
+        }, function () {
+            var $this = $(this);
+            $this.removeClass("guide_nav_item_hover");
+
+        })
+
+        //youhui pop
+
+        var isInDiscountCard = false;
+
+
+        $("#youhui-hot>li").bt(
+                {
+                    fill:'#FFFFFF',
+                    strokeStyle:'#BFBFA8',
+                    cornerRadius:5,
+                    padding:20,
+                    width:285,
+                    spikeLength:10,
+                    spikeGirth:10,
+                    ajaxPath:["$(this).attr('data-href')"],
+                    closeWhenOthersOpen:true,
+
+
+                    hideTip:function (box, callback) {
+                        if (!isInDiscountCard) {
+                            $(box).hide();
+
+                            callback();
+                        }
+                    },
+                    hoverIntentOpts:{
+                        interval:300,
+                        timeout:1000
+                    }
+
+                });
+
+        $('#pop-discount').live('mouseenter', function () {
+
+            isInDiscountCard = true;
+        });
+
+        $('#pop-discount').live('mouseleave', function () {
+
+            isInDiscountCard = false;
+            $("#container").trigger('click');
+        });
+
+    });
+	
+</script>
+<!-- 图片加载透明文字结束 -->
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>个人中心 | 驴友网</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta http-equiv="mobile-agent" content="format=html5; url=http://m.roadqu.com">
+	<link rel="stylesheet" href="../css/global.css" media="all">
+	<link rel="stylesheet" href="../css/boxy,jquery.fancybox-1.3.4.css">
+	<link  href="../css/aboutus.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="../css/reg.css"  />
+	<script type="text/javascript">
+		var userjson = '';
+		var c_cityinfo = '';
+	</script>
+
+	<script type="text/javascript" th:src="@{/webjars/jquery/3.5.1/jquery.js}"></script>
+	<script>
+		$(function () {
+			//在class=“header”的div中加载header.html
+			$(".header").load("/toPage?url=header");
+			$(".footer").load("/toPage?url=footer");
+			$(".bottom_c_l").load("/toPage?url=left");
+		})
+	</script>
+
+
+</head>
+
+<body>
+<div class="header">
+</div>
+<!--top end-->
+
+<div id="container" class="fn-clear">
+	<div class="bottom">
+    	<div class="bottom_t"></div>
+        <div class="bottom_c h650">
+       	  <div class="bottom_c_l"></div>
+
+		<div class="bottom_c_r">
+			<h2 style="width:680px; height:40px; line-height:41px; background:#83bb4a url(../images/reg-title-bg.png) repeat-x; 
+						color:#fefefe; text-indent:25px; font-size:20px; font-family:\9ED1\4F53; font-weight:400;">基本信息</h2>
+			<form id="form100" action="login.htm" method="post" class="reg-form" >
+				<p><label for="sex"><em>*</em>性别：</label>
+                   <input type="radio" th:checked="${session.USER.sex} == 1" id="sex" name="optionsRadios" value="1"><font style="font-size:14px; font-family: tahoma,arial,宋体">&nbsp;&nbsp;男</font>&nbsp;&nbsp;&nbsp;&nbsp;
+				   <input type="radio" th:checked="${session.USER.sex} == 2" name="optionsRadios" value="2"><font style="font-size:14px; font-family: tahoma,arial,宋体">&nbsp;&nbsp;女</font>
+                </p>
+				<p><label for="birthday"><em>*</em>生日：</label>
+                   <input type="date" class="input-txt" id="birthday" name="birthday" autocomplete="off" size="43" th:value="${#dates.format(session.USER.birthday,'yyyy-MM-dd')}"/>
+                </p>
+				<p><label for="location"><em>*</em>所在地：</label>
+                   <input type="text"  class="input-txt" id="location" name="location" autocomplete="off" size="43" th:value="${session.USER.location}"/>
+                </p>
+				<p><label for="QQ"><em>*</em>QQ：</label>
+                   <input  type="text"  class="input-txt" id="QQ" name="QQ" autocomplete="off" size="43" th:value="${session.USER.QQ}"/>
+                </p>
+				<p><label for="mobile"><em>*</em>电话号码：</label>
+                   <input type="text"  class="input-txt" id="mobile" name="mobile" autocomplete="off" size="43" th:value="${session.USER.mobile}"/>
+                </p>
+				<p><label for="hobby"><em>*</em>爱好：</label>
+                   <input type="text"  class="input-txt" id="hobby" name="hobby" autocomplete="off" size="43" th:value="${session.USER.hobby}"/>
+                </p>
+				<p><label for="introduction"><em>*</em>个人简介：</label>
+                   <textarea rows="5" cols="60" id="introduction" name="introduction" size="43" >[[${session.USER.introduction}]]</textarea>
+                </p>
+				<p>
+					<input type="hidden" name="userid" th:value="${session.USER.userid}">
+				</p>
+               	<a href="javascript:;" onclick="updateUser()" class="reg-login">修改</a>
+			</form>
+			<script>
+				//修改
+				function updateUser() {
+					//把表单序列化
+					let $data = $("#form100").serialize();
+
+					$.ajax({
+						type:"post",
+						url:"/user/updateUser",
+						data:$data,
+						dataType:"json",
+						success:function (msg){
+							if (msg){
+								alert("个人信息修改成功");
+								location.href="/toPage?url=/user/user_detail";
+							}else{
+								alert("个人信息修改失败");
+							}
+						}
+					})
+				}
+			</script>
+
+
+		</div>
+	</div>
+</div>
+</div>
+
+<!-- 底部footer 开始-->
+
+<div class="footer " >
+</div>
+
+
+<!-- footer end -->
+</body>
+</html>

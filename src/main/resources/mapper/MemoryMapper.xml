@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--为这个mapper指定一个唯一的namespace，namespace的值设置成DAO接口名，这样就能够保证能够匹配DAO接口-->
+<mapper namespace="com.etc.travelsys.mapper.MemoryMapper">
+
+    <!--查询首页前四条旅游记忆-->
+    <select id="queryIndexMemory" resultType="MemoryEntity">
+        select * from t_memory limit 0,4
+    </select>
+
+    <!--查询所有旅游记忆类型-->
+    <select id="queryTypeMemory" resultType="MemoryTypeEntity">
+        select * from t_memory_type
+    </select>
+
+    <!--根据每个旅游记忆类型，查询旅游记忆的前四条数据-->
+    <select id="queryMemoryByTid" resultType="MemoryEntity">
+        select * from t_memory where tid = #{tid} limit 0,4
+    </select>
+
+    <!--查询旅游记忆详情-->
+    <select id="queryMemoryDetail" resultType="MemoryEntity">
+        select * from t_memory m,t_memory_type mt where m.tid = mt.tid and m.mid = #{mid}
+    </select>
+
+    <!--查询此旅游记忆中所有评论-->
+    <select id="queryCommentList" resultType="CommentEntity">
+        select c.*,u.headimg
+        from t_comment c,t_user u
+        where c.userid = u.userid and c.mid = #{mid}
+    </select>
+
+    <!--添加评论-->
+    <insert id="addComment">
+        insert into t_comment values (null,#{userid},#{username},now(),#{mid},#{ccontent})
+    </insert>
+
+    <!--查询类型对应的分页数据-->
+    <select id="queryTypePage" resultType="MemoryEntity">
+        select * from t_memory m,t_memory_type mt
+                 where m.tid = mt.tid and m.tid = #{tid}
+    </select>
+
+    <!--添加旅游记忆，上传图片-->
+    <insert id="addMemory">
+        insert into t_memory values(null,#{tid},#{mtitle},#{publishid},
+                                    #{publishname},now(),#{mcontent},#{img})
+    </insert>
+
+    <!--分页查询我发布的所有旅游记忆列表-->
+    <select id="queryAllMemory" resultType="MemoryEntity">
+        select * from t_memory m LEFT JOIN t_memory_type mt on m.tid = mt.tid where publishid = #{userid}
+    </select>
+
+    <!--删除旅游记忆-->
+    <delete id="delMemory">
+        delete from t_memory where mid = #{mid}
+    </delete>
+
+    <!--修改旅游记忆详情-->
+    <update id="updateMemory">
+        update t_memory set mtitle = #{mtitle},tid = #{tid},mcontent = #{mcontent},img = #{img} where mid = #{mid}
+    </update>
+
+     <!--查询旅游攻略的城市景点统计-->
+    <select id="queryCityNum" resultType="CityNumVo">
+        select glocation,count(*) as num
+        from t_guide
+        group by glocation
+    </select>
+
+</mapper>

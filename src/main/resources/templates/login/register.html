@@ -1,0 +1,222 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+	<meta charset="utf-8">
+    <title>注册 | 驴友网</title>
+        <meta name="Keywords" content="驴友网" />
+        <meta name="Description" content="旅游社交，在旅途中享受激情与欢乐" />
+        <link rel="stylesheet" type="text/css" href="../css/global.css"  />
+        <link rel="stylesheet" type="text/css" href="../css/reg.css"  />
+        <link rel="stylesheet"  href="../css/boxy,jquery.fancybox-1.3.4.css" />
+        <script type="text/javascript">
+			var userjson = '';
+			var c_cityinfo = '';
+		</script>
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.5.1/jquery.js}"></script>
+    <script>
+        $(function () {
+            /*在class=“header”的div中加载header.html*/
+            $(".header").load("/toPage?url=header");
+            $(".footer").load("/toPage?url=footer");
+        })
+    </script>
+</head>
+
+<body id="reg" >
+<!--top-->
+<div class="header"></div>
+<!--top end-->
+        
+<div id="container"  class="noXtips cf">
+	<div  class="main">
+		<h2>欢迎注册驴友网</h2>
+			<form id="form100" action="login.html" method="post" class="reg-form" >
+				<p><label for="userName"><em>*</em>用户名：</label>
+                   <input name="userName" type="text"
+                          class="input-txt" id="userName" autocomplete="off" size="43"
+                   onblur="checkUserName(this)"/>
+                   <span id="userNameError"></span>
+                </p>
+				<p><label for="password"><em>*</em>密码：</label>
+                   <input name="password" type="password"
+                          class="input-txt" id="password" autocomplete="off" size="43"
+                          onblur="checkPassword(this)"/>
+                    <span id="passwordError"></span>
+                </p>
+				<p><label for="surePassword"><em>*</em>确认密码：</label>
+                   <input name="surePassword" type="password"
+                          class="input-txt" id="surePassword" autocomplete="off" size="43"
+                          onblur="checkSurePassword(this)"/>
+                    <span id="surePasswordError"></span>
+                </p>
+				<p><label for="email"><em>*</em>邮箱：</label>
+					<input name="email" type="text"  class="input-txt" id="email" size="43"
+                           onblur="checkEmail(this)">
+                    <span id="emailError"></span>
+                </p>
+
+                <!--<p class="checkcode"><label for="checkcode"><em>*</em>验证码：</label>
+                        <input name="checkcode" type="text"
+                               class="input-txt" id="checkcode" autocomplete="off" >
+                        <img height="26" align="absmiddle" width="105"
+                             onclick="this.src=this.src+'?'"title="看不清？点击更换"  src="" id="checkcodeimg" >
+                        <span  onclick="changeCheckCodeImg();" class="refresh">换一换</span>
+                </p>-->
+				<p class="chcek-rule"><input name="agree" type="checkbox" value="1" checked />
+					<span class="fl">我同意</span><a href="#" target="_blank">《Udai网服务公约》</a>
+				</p>
+                <a class="regbtn" id="submit" href="javascript:void(0);" hidefocus="true"
+                onclick="register()">立即注册</a>
+			</form>
+
+
+		    <!--引入jQuery脚本库-->
+            <script type="text/javascript" th:src="@{webjars/jquery/3.5.1/jquery.js}"></script>
+            <script>
+                //校验用户名，长度不能小于3，用户名不能注册
+                function checkUserName(userNameObj){
+                    //userNameObj:当前失去焦点的输入框的dom对象
+                    //$(userNameObj):将dom对象转换成jquery对象，才可以使用jquery中的方法
+                    //$(userNameObj).val()：获取当前失去焦点的输入框输入的内容
+                   let userName = $(userNameObj).val();  //或者用户名输入框输入的内容
+                    //判断长度不能小于3
+                    if (userName.length <3){
+                        //$(userNameObj).next():失去焦点的输入框的下一个元素对象（显示错误信息的span）
+                        //text():设置文本内容   css():设置样式，把字体颜色修改成功红色
+                        $(userNameObj).next().text("用户名长度不能小于3");
+                        $(userNameObj).next().css("color","red");
+                        return false;  //结束方法
+                    }else{
+                        //继续验证用户名是否注册过--ajax，异步请求，局部刷新
+                        $.ajax({
+                            type:"post", //发送请求的方式，默认请求方式为get
+                            url:"/user/checkUserName",//发送到什么位置
+                            data:{"username":userName}, //要传给服务器的参数
+                            async:"false",//是否为异步请求 false--同步   true---异步   默认为异步请求
+                            dataType:"json", //响应的数据类型是json
+                            success:function (msg){  //会在返回完整，请求成功时调用，其中的参数是返回值
+                                //true--不存在，可以注册  false--存在，用户名被占用
+                                if (!msg){
+                                    $(userNameObj).next().text("用户名已占用");
+                                    $(userNameObj).next().css("color","red");
+                                    return false;  //结束方法
+                                }
+                            },
+                            error:function (){  //异常
+                                alert("网络不可用")
+                            }
+                        })
+                    }
+                    $(userNameObj).next().text("√");
+                    $(userNameObj).next().css("color","green");
+                    return  true;
+                }
+
+                //校验密码 ,密码的长度必须要大于6位，并且小于16位
+                function  checkPassword(passwordObj){
+                   let password = $(passwordObj).val();
+                   if (password.length < 6 || password.length >= 16){
+                       $(passwordObj).next().text("密码只能是6-16位之间");
+                       $(passwordObj).next().css("color","red");
+                       return false;
+                   }
+                    $(passwordObj).next().text("√");
+                    $(passwordObj).next().css("color","green");
+                    return true;
+                }
+                //校验重复密码
+                function checkSurePassword(surePasswordObj){
+                    let surePassword = $(surePasswordObj).val();
+                    if (surePassword.length < 6 || surePassword.length >= 16){
+                        $(surePasswordObj).next().text("重复密码只能是6-16位之间");
+                        $(surePasswordObj).next().css("color","red");
+                        return false;
+                    }
+                    //密码和重复密码必须一致
+                    let password = $("#password").val();
+                    if (surePassword != password){
+                        $(surePasswordObj).next().text("密码和重复密码不一致");
+                        $(surePasswordObj).next().css("color","red");
+                        return false;
+                    }
+                    $(surePasswordObj).next().text("√");
+                    $(surePasswordObj).next().css("color","green");
+                    return true;
+                }
+
+                //校验邮箱
+                function  checkEmail(emailObj){
+                    //邮箱的正则表达式
+                    let reg = /^[a-zA-Z0-9]+([-_.][A-Za-zd]+)*@([a-zA-Z0-9]+[-.])+[A-Za-zd]{2,5}$/;
+
+                    let email = $(emailObj).val();
+
+                    //检验邮箱格式是否符合正则  test()：校验正则的方法
+                    if (!reg.test(email)){
+                        $(emailObj).next().text("邮箱格式不正确");
+                        $(emailObj).next().css("color","red");
+                        return false;
+                    }
+                    $(emailObj).next().text("√");
+                    $(emailObj).next().css("color","green");
+                    return true;
+                }
+
+                //注册
+                function register(){
+                    let userNameObj = document.getElementById("userName");
+                    let passwordObj = document.getElementById("password");
+                    let surePasswordObj = document.getElementById("surePassword");
+                    let emailObj = document.getElementById("email");
+                    //提交数据之前，对所有输入框的数据，进行校验
+                    //if (checkUserName(userNameObj) && checkPassword(passwordObj)
+                     //&& checkSurePassword(surePasswordObj) && checkEmail(emailObj)){
+                        //把表单数据序列表
+                        //userName=zhangsan1&password=123456&surePassword=123456&email=qwwq%40qq.com&agree=1
+                        let $data =  $("#form100").serialize();
+                        console.log($data);
+                        $.ajax({
+                            type: "post",
+                            url: "/user/register",
+                            data:$data,
+                            dataType: "json",
+                            success:function (msg){
+                               if (msg == true){
+                                   alert("注册成功")
+                                   //跳转到登录页面，重新登录
+                                   location.href = "/login.html";
+                               }else{
+                                   alert("注册失败");
+                                   alert(msg);
+                               }
+                            },
+                            error:function(){
+                                alert("网络不可用")
+                            }
+                        })
+
+                    //}
+                }
+
+                //
+
+
+            </script>
+
+
+			<div class="reg-notes">
+				<p>如果你已注册，请直接登录</p>
+                <a href="login.html" class="reg-login">登录</a>
+                <dl class="login-option">
+                    <dt>你也可以用以下方式登录</dt>
+                    <dd class="sina-ico"><a href="#">新浪微博</a></dd>
+                    <dd ><a href="#">腾讯微博</a></dd>
+                </dl>
+			</div>
+		</div>
+	</div>
+	
+<div class="footer" ></div>
+<!-- footer end -->
+</body>
+</html>

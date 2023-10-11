@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="title01"> 动态 </div>
+<div class="list01 bk">
+  <ul>
+    <li th:class="${session.isCheck}==1?un:''">
+      <a href="/dynamic/queryMyDynamic?isCheck=1">
+        <div class="icon_bot">
+          <img src="../images/help13.png">
+        </div>我的动态</a>
+    </li>
+    <li th:class="${session.isCheck}==2?un:''">
+      <a href="/dynamic/queryFriendDynamic?isCheck=2">
+        <div class="icon_bot">
+          <img src="../images/help13.png">
+        </div>好友动态</a>
+    </li>
+  </ul>
+</div>
+<div class="title01"> 我的记忆 </div>
+<div class="list01 bk">
+  <ul>
+    <li th:class="${session.isCheck}==3?un:''">
+      <a href="/toPage?url=/user/memory_add&isCheck=3">
+        <div class="icon_bot">
+          <img src="../images/help12.png">
+      </div>发布新记忆</a>
+    </li>
+    <li th:class="${session.isCheck}==4?un:''">
+      <a th:href="@{/memory/queryAllMemory(isCheck=4)}">
+        <div class="icon_bot">
+          <img src="../images/help14.png">
+        </div>全部记忆</a>
+    </li>
+  </ul>
+</div>
+<div class="title01"> 相约驴友 </div>
+<div class="list01 bk">
+  <ul>
+    <li th:class="${session.isCheck}==5?un:''">
+      <a href="/toPage?url=/user/travel_add&isCheck=5">
+        <div class="icon_bot">
+          <img src="../images/help12.png">
+        </div>发起结伴游</a>
+    </li>
+    <li th:class="${session.isCheck}==6?un:''">
+      <a href="/together/queryMyTogether?isCheck=6">
+        <div class="icon_bot">
+          <img src="../images/help13.png">
+        </div>我发起的结伴游</a>
+    </li>
+  </ul>
+</div>
+<div class="title01"> 我的好友 </div>
+<div class="list01 bk">
+  <ul>
+    <li th:class="${session.isCheck}==7?un:''">
+      <a href="/friend/queryFriendList?isCheck=7">
+        <div class="icon_bot">
+        <img src="../images/help12.png">
+      </div>好友列表</a>
+    </li>
+  </ul>
+</div>
+<div class="title01">账号管理</div>
+<div class="list01 bk">
+  <ul>
+    <li th:class="${session.isCheck}==8?un:''">
+      <a href="/toPage?url=/user/user_detail&isCheck=8">
+        <div class="icon_bot">
+          <img src="../images/help12.png">
+        </div>基本信息</a>
+    </li>
+    <li th:class="${session.isCheck}==9?un:''">
+      <a href="/toPage?url=/user/img_change&isCheck=9">
+        <div class="icon_bot">
+          <img src="../images/help13.png">
+        </div>修改头像</a>
+    </li>
+    <li th:class="${session.isCheck}==10?un:''">
+      <a href="/toPage?url=/user/password_change&isCheck=10">
+        <div class="icon_bot">
+          <img src="../images/help14.png">
+      </div>修改密码</a>
+    </li>
+  </ul>
+</div>
+</body>
+</html>

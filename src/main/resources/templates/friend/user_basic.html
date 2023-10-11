@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+	<meta charset="utf-8">
+    <title>用户 | 驴友网</title>
+        <meta name="Keywords" content="驴友网" />
+        <meta name="Description" content="旅游社交，在旅途中享受激情与欢乐" />
+        <link rel="stylesheet" type="text/css" href="../css/global.css"  />
+        <link rel="stylesheet" type="text/css" href="../css/reg.css"  />
+        <link rel="stylesheet"  href="../css/boxy,jquery.fancybox-1.3.4.css" />
+        <script type="text/javascript">
+			var userjson = '';
+			var c_cityinfo = '';
+		</script>
+    <!--引入jQuery脚本库-->
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.5.1/jquery.js}"></script>
+    <script>
+        $(function () {
+            /*在class=“header”的div中加载header.html*/
+            $(".header").load("/toPage?url=header");
+            $(".footer").load("/toPage?url=footer");
+        })
+    </script>
+</head>
+
+<body id="reg" >
+<!--top-->
+<div class="header">
+</div>
+<!--top end-->
+        
+<div id="container"  class="noXtips cf">
+	<div  class="main">
+		<h2>作者基本资料</h2>
+			<form id="form100" action="#" method="post" class="reg-form" >
+				<p><label><em>*</em>性别：</label>
+                   <label th:if="${user.sex}==1">男</label>
+                   <label th:if="${user.sex}==2">女</label>
+                </p>
+				<p><label><em>*</em>生日：</label>
+                   <label>[[${#dates.format(user.birthday,'yyyy-MM-dd')}]]</label>
+                </p>
+				<p><label><em>*</em>所在地：</label>
+                   <label>[[${user.location}]]</label>
+                </p>
+				<p><label><em>*</em>QQ：</label>
+                   <label>[[${user.QQ}]]</label>
+                </p>
+				<p><label><em>*</em>手机：</label>
+                   <label>[[${user.mobile}]]</label>
+                </p>
+				<p><label><em>*</em>爱好：</label>
+                   <label>[[${user.hobby}]]</label>
+                </p>
+				<p><label><em>*</em>个人简介：</label>
+                   <label>[[${user.introduction}]]</label>
+                </p>				               
+			</form>
+			
+			<div class="reg-notes">
+                <dl class="login-option">
+                    <dt>用户：[[${user.userName}]]</dt>
+                    <dd ><img th:src="${user.headimg}" width="100" height="100" /></dd>
+                </dl>
+				<dl class="login-option">
+                    <dt>&nbsp;</dt>
+					<dd>&nbsp;</dd>
+                    <a href="javascript:;" id="isAttention"
+                       class="reg-login"
+                    th:onclick="updateAttention([[${user.userid}]],[[${user.isAttention}]])">[[${user.isAttention}]]</a>
+                    <br><br><br>
+                    <a th:href="@{/memory/queryAuthorMemory(publishid=${user.userid})}">他发布的旅游记忆</a><br><br><br>
+                    <a th:href="@{/together/queryAuthorTogether(publishid=${user.userid})}">他发布的结伴游</a>
+                </dl>				                    
+			</div>
+			<script>
+                //点击关注按钮和取消关注按住按钮
+                function updateAttention(friendid, isAttention) {
+                    $.ajax({
+                        type:"post",
+                        url:"/friend/updateAttention",
+                        data:{"friendid":friendid,"isAttention":isAttention},
+                        success:function (msg){
+                            if (msg){
+                                alert("操作成功");
+                                location.href="/friend/queryFriendDetail?publishid="+friendid;
+                            }else {
+                                alert("操作失败")
+                            }
+                        }
+                    })
+                }
+            </script>
+		</div>
+	</div>
+	
+<div class="footer" >
+</div>
+<!-- footer end -->
+</body>
+</html>

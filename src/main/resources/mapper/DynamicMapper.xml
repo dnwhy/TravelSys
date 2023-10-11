@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--为这个mapper指定一个唯一的namespace，namespace的值设置成DAO接口名，这样就能够保证能够匹配DAO接口-->
+<mapper namespace="com.etc.travelsys.mapper.DynamicMapper">
+
+    <!--我的动态-->
+    <select id="queryMyDynamic" resultType="DynamicEntity">
+        select * from t_dynamic where publishid = #{userid} order by publishtime desc
+    </select>
+
+    <!--发表动态-->
+    <insert id="addDynamic">
+        insert into t_dynamic values (null,#{dcontent},now(),#{publishid},#{publishname})
+    </insert>
+
+    <!--删除动态-->
+    <delete id="delDynamic">
+        delete from t_dynamic where dynamicid = #{dynamicid}
+    </delete>
+
+    <!--查询好友动态-->
+    <select id="queryFriendDynamic" resultType="FriendDynamicVo">
+        select u.headimg,d.*
+        from t_friend f,t_dynamic d,t_user u
+        where f.userid = #{userid}
+          and f.friendid = d.publishid
+          and d.publishid = u.userid
+        order by d.publishtime
+    </select>
+</mapper>

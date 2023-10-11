@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--为这个mapper指定一个唯一的namespace，namespace的值设置成DAO接口名，这样就能够保证能够匹配DAO接口-->
+<mapper namespace="com.etc.travelsys.mapper.FriendMapper">
+
+    <!--分页并搜索 展示好友列表-->
+    <select id="queryFriendList" resultType="UserEntity">
+        select u.* from t_friend f LEFT JOIN t_user u on f.friendid = u.userid
+        where f.userid = #{userid}
+        <if test="searchName != 'no'">
+            and u.username like concat('%',#{searchName},'%')
+        </if>
+    </select>
+
+    <!--取消好友关注-->
+    <delete id="delAttention">
+        delete from t_friend where userid = #{userid} and friendid = #{friendId}
+    </delete>
+
+    <!--关注好友-  查询作者详情-->
+    <select id="queryFriendDetail" resultType="UserVo">
+        select u.*,ifnull((select if(id = 0,'null','已关注')
+                           from t_friend where userid = #{userid} and friendid = #{publishid}
+                                         ),'未关注') as isAttention
+        from t_user u
+        where u.userid = #{publishid}
+    </select>
+
+    <!--关注好友-->
+    <insert id="attention">
+        insert into t_friend values (null,#{userid},#{friendid})
+    </insert>
+
+</mapper>

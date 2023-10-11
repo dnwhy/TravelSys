@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--为这个mapper指定一个唯一的namespace，namespace的值设置成DAO接口名，这样就能够保证能够匹配DAO接口-->
+<mapper namespace="com.etc.travelsys.mapper.GuideMapper">
+
+    <!--查询所有旅游攻略类型列表-->
+    <select id="queryAllType" resultType="GuideTypeEntity">
+        select * from t_guide_type
+    </select>
+
+    <!--添加旅游记忆攻略-->
+    <insert id="addGuide">
+        insert into t_guide values (null,#{gtitle},#{time},#{crowd},#{img},#{tid},
+                                    #{gintroduce},
+                                    #{equipment},#{tips},#{glocation},now(),#{publishid},
+                                    #{publishname})
+    </insert>
+
+
+    <!--查询所有类型以及类型下的旅游攻略列表-->
+    <resultMap id="getResultMap" type="GuideTypeEntity">
+        <!--主键属性映射  property:实体类中的属性名 column:数据表中的字段-->
+        <id property="tid" column="tid"></id>
+        <!--普通属性映射  property:实体类中的属性名 column:数据表中的字段-->
+        <result property="tname" column="tname"></result>
+        <!--一对多关系数据映射 property:实体类中的属性名 ofType:属于哪种类型-->
+        <collection property="guides" ofType="GuideEntity">
+            <id property="gid" column="gid"></id>
+            <result property="gtitle" column="gtitle"></result>
+            <result property="time" column="time"></result>
+            <result property="crowd" column="crowd"></result>
+            <result property="img" column="img"></result>
+        </collection>
+    </resultMap>
+    <select id="queryAllGuide" resultMap="getResultMap">
+        select *
+        from t_guide_type gt left join t_guide g
+        on gt.tid = g.tid
+    </select>
+    <!--limit 0,4-->
+
+    <!--查询旅游攻略详情-->
+    <select id="queryGuideDetail" resultType="GuideEntity">
+        select * from t_guide g,t_guide_type gt
+        where g.tid = gt.tid and g.gid = #{gid}
+    </select>
+
+    <!--查询所有的旅游攻略-->
+    <select id="queryAll" resultType="GuideEntity">
+        select gid,gtitle,addtime,publishname from t_guide
+    </select>
+
+    <!--删除攻略-->
+    <delete id="delGuide">
+        delete from t_guide where gid = #{gid}
+    </delete>
+
+
+</mapper>

@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>个人中心 | 驴友网</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta http-equiv="mobile-agent" content="format=html5; url=http://m.roadqu.com">
+	<link rel="stylesheet" href="../css/global.css" media="all">
+	<link rel="stylesheet" href="../css/boxy,jquery.fancybox-1.3.4.css">
+	<link  href="../css/aboutus.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="../css/huidong.css">
+	<link rel="stylesheet" type="text/css" href="../css/reg.css"  />
+	
+	<script type="text/javascript">
+		var userjson = '';
+		var c_cityinfo = '';
+	</script>
+	<!-- 合并jquery and $LAB -->
+
+	<script type="text/javascript" th:src="@{/webjars/jquery/3.5.1/jquery.js}"></script>
+	<script>
+		$(function () {
+			//在class=“header”的div中加载header.html
+			$(".header").load("/toPage?url=header");
+			$(".footer").load("/toPage?url=footer");
+			$(".bottom_c_l").load("/toPage?url=left");
+		})
+	</script>
+	
+</head>
+<body>
+<div class="header">
+</div>
+<!--top end-->
+
+<div id="container" class="fn-clear">
+	<div class="bottom">
+    	<div class="bottom_t"></div>
+        <div class="bottom_c h650">
+       	  <div class="bottom_c_l"></div>
+	
+		<div class="bottom_c_r">
+			<h2 style="width:680px; height:40px; line-height:41px; background:#83bb4a url(../images/reg-title-bg.png) repeat-x; 
+						color:#fefefe; text-indent:25px; font-size:20px; font-family:\9ED1\4F53; font-weight:400;">好友列表</h2>
+			<ul id="comment-list" class="comment-list">
+				<li class="fn-clear">
+					<div class="isearch">
+						 <div class="navSearch">
+							<form th:action="@{/friend/queryFriendList}" method="get" id="searchForm" target="_blank">
+								<input name="searchName" type="text" class="top-search-input" placeholder="搜索好友"
+									   th:value="${searchName}" maxlength="50" autocomplete="off"/>
+								<input type="submit" value="搜索" class="search_btn">
+							</form>
+							<div id="keyword_tip_content"></div>
+						</div>
+					</div>
+				</li>
+				
+				<li class="fn-clear" th:each="u:${pageInfo.list}">
+					<div >
+						<p>
+							<a class="comment_user" th:href="@{/friend/queryFriendDetail(publishid=${u.userid})}">
+								<img width="75" height="75" th:alt="${u.userName}"
+									 th:src="${u.headimg}">
+								&nbsp;&nbsp;&nbsp;&nbsp;[[${u.userName}]]</a>
+							<label style="float:right">
+								<a class="comment_user"
+								   href="javascript:;" th:onclick="delAttention([[${u.userid}]],this)">取消关注</a>
+							</label>
+						</p>
+						<script>
+							//取消关注
+							function delAttention(friendId,obj) {
+								$.ajax({
+									type:"get",
+									url:"/friend/delAttention",
+									data:{"friendId":friendId},
+									success:function (msg){
+										if (msg){
+											alert("取消成功");
+											//返回li这个祖先元素   remove（）：移除节点元素
+											$(obj).parents("li").remove();
+										}else {
+											alert("取消失败");
+										}
+									}
+								})
+							}
+						</script>
+						<div class="comment_box">
+							<div class="comment_cnt"> 
+								性别：[[${u.sex}==1?'男':'女']]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								所在地：[[${location}]]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								生日：[[${#dates.format(u.birthday,'yyyy年MM月dd日')}]]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								QQ：[[${u.QQ}]]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								手机：[[${u.mobile}]]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+							</div>
+						</div>
+					</div>
+				</li>
+
+			</ul>
+			<!--分页-->
+			<div class="no-pages cf">
+				<strong>当前第[[${pageInfo.pageNum}]]页,共[[${pageInfo.pages}]]页,共[[${pageInfo.total}]]条数据</strong>
+				<a th:if="${pageInfo.pageNum != 1}" th:href="@{/friend/queryFriendList(searchName=${searchName})}" class="pageBtn">首页 &gt;&gt;</a>
+				<a th:if="${pageInfo.pageNum != 1}" th:href="@{/friend/queryFriendList(pageNum=${pageInfo.prePage},searchName=${searchName})}" class="pageBtn">上一页 &gt;&gt;</a>
+				<a th:if="${pageInfo.pageNum != pageInfo.pages}" th:href="@{/friend/queryFriendList(pageNum=${pageInfo.nextPage},searchName=${searchName})}" class="pageBtn">下一页 &gt;&gt;</a>
+				<a th:if="${pageInfo.pageNum != pageInfo.pages}" th:href="@{/friend/queryFriendList(pageNum=${pageInfo.pages},searchName=${searchName})}" class="pageBtn">末页 &gt;&gt;</a>
+			</div>	
+		</div>	
+	</div>
+</div>
+</div>
+<!-- 底部footer 开始-->
+
+<div class="footer">
+</div>
+<!-- footer end -->
+</body>
+</html>

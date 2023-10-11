@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--为这个mapper指定一个唯一的namespace，namespace的值设置成Mapper接口名，用来保证能够匹配Mapper接口-->
+<mapper namespace="com.etc.travelsys.mapper.UserMapper">
+
+    <!--登录
+    select:标识查询
+    id:和接口中抽象方法名必须一致，调用方法实际执行当前标签的sql语句
+    #{username}：#占位符，把抽象方法中的参数赋值到sql语句的条件中
+    resultType: 查询结果自动映射到指定的类型中
+    -->
+    <select id="login"  resultType="UserEntity">
+        select  * from t_user where username = #{username} and `password` = #{password}
+    </select>
+
+    <!--验证用户名是否存在-->
+    <select id="checkUserName" resultType="UserEntity">
+        select userid from t_user where username = #{username}
+    </select>
+
+    <!--注册-->
+    <insert id="register">
+        insert into t_user(username,password,email,status,role)
+        values (#{userName},#{password},#{email},1,1)
+    </insert>
+
+    <!--修改用户基本信息-->
+    <update id="updateUser">
+        update t_user set sex=#{sex},birthday=#{birthday},location=#{location},QQ=#{QQ},
+                          mobile=#{mobile},hobby=#{hobby},introduction=#{introduction}
+        where userid = #{userid}
+    </update>
+
+    <!--修改头像-->
+    <update id="updateImg">
+        update t_user set headimg = #{img} where userid = #{userid}
+    </update>
+
+    <!--修改密码-->
+    <update id="updatePwd">
+        update t_user set password = #{newPwd} where userid = #{userid}
+    </update>
+
+    <!--人脸注册-->
+    <update id="updateIsFace">
+        update t_user set isFace = 1 where userid = #{userid}
+    </update>
+
+    <!--人脸登录-->
+    <select id="queryUserById" resultType="UserEntity">
+        select * from t_user where userid = #{userId}
+    </select>
+
+</mapper>
